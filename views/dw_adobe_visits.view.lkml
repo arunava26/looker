@@ -94,13 +94,13 @@ view: dw_adobe_visits {
     type: sum
     sql: case when ${transactions}>0 then ${visits} else 0 end ;;
   }
-  #measure: count_visitor {
-   # type: count
-   # sql: ${visits} ;;
-  #}
- # measure:online_conversion{
-   # type: number
-   # sql: ${distinct_count_visitor}*100/${count_visitor} ;;
-   # value_format_name: decimal_2
-  #}
+ measure: count_visitor {
+    type: sum
+    sql: ${visits} ;;
+  }
+  measure:online_conversion{
+    type: number
+    sql: ${distinct_count_visitor}*100/${count_visitor} ;;
+    value_format_name: decimal_2
+  }
 }

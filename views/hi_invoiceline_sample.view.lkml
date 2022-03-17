@@ -324,8 +324,9 @@ view: hi_invoiceline_sample {
     type: sum
     sql: ${extendedsales}*${multiplybyforusd} ;;
     drill_fields: [detail*]
+
     #value_format_name: decimal_0
-    value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
 
   }
 
