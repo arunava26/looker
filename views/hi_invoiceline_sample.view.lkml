@@ -323,12 +323,22 @@ view: hi_invoiceline_sample {
   measure: total_extendedsales {
     type: sum
     sql: ${extendedsales}*${multiplybyforusd} ;;
-    drill_fields: [detail*]
-
     #value_format_name: decimal_0
     value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
-
+    drill_fields: [detail*]
+    #value_format_name: usd_0
   }
+
+  measure: total_extendedsales_full {
+    type: sum
+    sql: ${extendedsales}*${multiplybyforusd} ;;
+    #value_format_name: decimal_0
+    #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    drill_fields: [detail*]
+    value_format_name: usd_0
+  }
+
+
 
   measure: total_qtyshipped {
     type: sum
@@ -347,9 +357,11 @@ view: hi_invoiceline_sample {
 
   measure: customer_count{
     type: count_distinct
-    sql: concat(${companycd},${masterbrcustnbr}) ;;
+    sql: ${channel} ;;
     drill_fields: [detailCustomer*]
   }
+
+
 
   set:detail {
     fields: [entrymethod,termidcd,custname,category1,extendedsales]

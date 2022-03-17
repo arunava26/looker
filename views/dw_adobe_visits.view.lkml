@@ -101,6 +101,7 @@ view: dw_adobe_visits {
   measure:online_conversion{
     type: number
     sql: ${distinct_count_visitor}*100/${count_visitor} ;;
-    value_format_name: decimal_2
+
   }
+
 }
