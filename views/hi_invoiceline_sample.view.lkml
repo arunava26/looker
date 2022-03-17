@@ -139,8 +139,10 @@ view: hi_invoiceline_sample {
   }
 
   dimension: extendedsales {
+    label: "Revenue"
     type: number
     sql: ${TABLE}.EXTENDEDSALES ;;
+    value_format_name: usd
   }
 
   dimension: fismonthofyear {
@@ -317,7 +319,8 @@ view: hi_invoiceline_sample {
   measure: count {
     type: count
     drill_fields: [entrymethod,termidcd,custname,category1,extendedsales]
-    value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+
   }
 
   measure: total_extendedsales {
@@ -325,9 +328,9 @@ view: hi_invoiceline_sample {
     label: "Revenue"
     sql: ${extendedsales}*${multiplybyforusd} ;;
     #value_format_name: decimal_0
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
     drill_fields: [detail*]
-    #value_format_name: usd_0
+    value_format_name: usd_0
   }
 
   measure: total_extendedsales_full {
@@ -345,7 +348,7 @@ view: hi_invoiceline_sample {
   measure: total_qtyshipped {
     type: sum
     sql: ${qtyshipped} ;;
-    value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
   }
 
  # measure: companycd_count{
