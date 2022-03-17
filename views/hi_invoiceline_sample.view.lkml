@@ -322,6 +322,7 @@ view: hi_invoiceline_sample {
 
   measure: total_extendedsales {
     type: sum
+    label: "Revenue"
     sql: ${extendedsales}*${multiplybyforusd} ;;
     #value_format_name: decimal_0
     value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
@@ -331,6 +332,7 @@ view: hi_invoiceline_sample {
 
   measure: total_extendedsales_full {
     type: sum
+    label: "Revenue"
     sql: ${extendedsales}*${multiplybyforusd} ;;
     #value_format_name: decimal_0
     #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
