@@ -24,7 +24,20 @@ view: dw_adobe_exit {
 
   dimension: exit_pages {
     type: string
-    sql: ${TABLE}.EXIT_PAGES ;;
+    #sql: ${TABLE}.EXIT_PAGES ;;
+    sql: case when ${TABLE}.EXIT_PAGES like '%CMS' then 'Reseller Login'
+ when ${TABLE}.EXIT_PAGES like '%LOGIN%' then 'Reseller Login'
+when ${TABLE}.EXIT_PAGES like '%Search Results' then 'Search Results'
+when ${TABLE}.EXIT_PAGES like '%Home' then 'Home Page'
+when ${TABLE}.EXIT_PAGES like '%Product Detail' then 'Product Detail'
+when ${TABLE}.EXIT_PAGES like '%Manager%' then 'Orders Manager'
+when ${TABLE}.EXIT_PAGES like '%OrderDetails%' then 'Orders Manager'
+when ${TABLE}.EXIT_PAGES like '%Order Details%' then 'Orders Manager'
+when ${TABLE}.EXIT_PAGES like '%Confirmation%' then 'Order Confirmation'
+when ${TABLE}.EXIT_PAGES like '%Account%' then 'Account Profile'
+when ${TABLE}.EXIT_PAGES like '%View Cart' then 'View Cart'
+when ${TABLE}.EXIT_PAGES like '%QUOTE%' then 'Quote Manager'
+else 'Other' end ;;
   }
 
   dimension: ingram_reseller_id {
