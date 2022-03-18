@@ -320,7 +320,7 @@ view: hi_invoiceline_sample {
     type: count
     drill_fields: [entrymethod,termidcd,custname,category1,extendedsales]
     #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
-
+    html: @{big_number_format} ;;
   }
 
   measure: total_extendedsales {
@@ -330,7 +330,8 @@ view: hi_invoiceline_sample {
     #value_format_name: decimal_0
     #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
     drill_fields: [detail*]
-    value_format_name: usd_0
+    #value_format_name: "0.000,,,\"B\""
+    html: @{big_money_format} ;;
   }
 
   measure: total_extendedsales_full {
@@ -340,7 +341,8 @@ view: hi_invoiceline_sample {
     #value_format_name: decimal_0
     #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
     drill_fields: [detail*]
-    value_format_name: usd_0
+    #value_format_name: usd_0
+    html: @{big_number_format} ;;
   }
 
 
@@ -349,6 +351,7 @@ view: hi_invoiceline_sample {
     type: sum
     sql: ${qtyshipped} ;;
     #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    html: @{big_number_format} ;;
   }
 
  # measure: companycd_count{
