@@ -56,6 +56,7 @@ else 'Other' end ;;
   }
 
   dimension: visitor_id {
+
     type: string
     sql: ${TABLE}.VISITOR_ID ;;
   }

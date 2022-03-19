@@ -22,6 +22,20 @@ view: dw_adobe_visits {
     sql: ${TABLE}.DATES ;;
   }
 
+  dimension_group: dates_format {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: TIMESTAMP(CAST(${dates} AS DATE FORMAT 'MONTH DD, YYYY')) ;;
+  }
+
   dimension: dates_yyyy_mm {
     label:"Year Week"
     type: string
@@ -40,9 +54,9 @@ view: dw_adobe_visits {
   }
 
 
-    dimension: ingram_reseller_id {
+  dimension: ingram_reseller_id {
     primary_key: yes
-    type: string
+
     sql: ${TABLE}.INGRAM_RESELLER_ID ;;
   }
 
@@ -122,6 +136,7 @@ view: dw_adobe_visits {
     #sql: case when CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY') > DATE_SUB(CURRENT_DATE(), INTERVAL 13 MONTH) then concat( ${country},${ingram_reseller_id}) else 0 end ;;
     html: @{big_number_format} ;;
   }
+
 
   measure: Visitor_sum {
     type: sum

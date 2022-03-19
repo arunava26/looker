@@ -27,6 +27,8 @@ persist_with: ingram_ods_prod_default_datagroup
 
 
 explore: dw_adobe_addtocartlocation {}
+explore: conversion_rate {}
+
 
 explore: dw_adobe_visits {
   join: customer_hierarchy_dimention {
@@ -40,6 +42,11 @@ explore: dw_adobe_visits {
     sql_on: ${dw_adobe_visits.ingram_reseller_id} = ${dw_adobe_online_skus.ingram_reseller_id} ;;
     relationship: one_to_many
   }
+  join: ref_adobe_erp_mapping {
+    type: left_outer
+    sql_on: ${dw_adobe_visits.country} =  ${ref_adobe_erp_mapping.adobe_country_name};;
+    relationship: one_to_many
+  }
 }
 
 
@@ -49,7 +56,9 @@ explore: traffic {}
 explore: revenueByChannel {}
 explore: exit_pages {}
 
-explore: dw_adobe_exit {}
+explore: dw_adobe_exit {
+
+}
 
 explore: acop_bid_info {}
 

@@ -301,16 +301,16 @@ view: hi_invoiceline_sample {
   dimension: channel {
 
     type: string
-    sql: CASE WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBA','WEBO','LU6G','WEB2','HERM','WEBL') and ${branchcustomernbr} !='16' THEN 'WEB'
-         WHEN ${entrymethod} = 'ZWEB' and ${branchcustomernbr} !='16'  THEN 'WEB'
-         WHEN ${termidcd} = 'VENP' and ${branchcustomernbr}  !='16'  THEN 'Vendor Portals'
-         WHEN ${entrymethod} = 'O' and ${branchcustomernbr}  !='16'   THEN 'EDI'
-         WHEN ${entrymethod} = 'L' and ${termidcd} in ('BTCH') and ${branchcustomernbr}  !='16'  THEN 'EDI'
-         WHEN ${entrymethod} = 'ZEDI'  and ${branchcustomernbr}  !='16'  THEN 'EDI'
-         WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBX','LU6X')  and ${branchcustomernbr}  !='16'  THEN 'XML'
-         WHEN ${entrymethod} = 'ZXML'  and ${branchcustomernbr}  !='16'  THEN 'XML'
-         WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBS')  and ${branchcustomernbr}  !='16'  THEN 'API'
-         WHEN ${termidcd} = 'G360'  and ${branchcustomernbr}  !='16'   THEN 'Manual Quote to Order'
+    sql: CASE WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBA','WEBO','LU6G','WEB2','HERM','WEBL') and left(${branchcustomernbr},2) not in ('16','IC') THEN 'WEB'
+         WHEN ${entrymethod} = 'ZWEB' and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'WEB'
+         WHEN ${termidcd} = 'VENP' and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'Vendor Portals'
+         WHEN ${entrymethod} = 'O' and left(${branchcustomernbr},2) not in ('16','IC')   THEN 'EDI'
+         WHEN ${entrymethod} = 'L' and ${termidcd} in ('BTCH') and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'EDI'
+         WHEN ${entrymethod} = 'ZEDI'  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'EDI'
+         WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBX','LU6X')  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'XML'
+         WHEN ${entrymethod} = 'ZXML'  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'XML'
+         WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBS')  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'API'
+         WHEN ${termidcd} = 'G360'  and left(${branchcustomernbr},2) not in ('16','IC')   THEN 'Manual Quote to Order'
          ELSE 'Manual Entry'
      END
       ;;
@@ -324,6 +324,13 @@ view: hi_invoiceline_sample {
     html: @{big_number_format} ;;
   }
 
+  measure: customer_distinct_count_concat {
+    type: count_distinct
+    sql:concat(${TABLE}.COMPANYCD,${TABLE}.MASTERBRCUSTNBR)  ;;
+    drill_fields: [entrymethod,termidcd,custname,category1,extendedsales]
+    #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    html: @{big_number_format} ;;
+  }
 
   measure: count {
     type: count
