@@ -21,6 +21,19 @@ view: dw_adobe_visits {
     type: string
     sql: ${TABLE}.DATES ;;
   }
+
+  dimension: dates_yyyy_mm {
+    label:"Year Week"
+    type: string
+    sql: CONCAT(EXTRACT (YEAR FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (MONTH FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
+  }
+
+  dimension: dates_format {
+    type: date
+    sql: CAST(dw_adobe_visits.DATES AS DATE FORMAT 'MONTH DD, YYYY')   ;;
+  }
+
+
   dimension: year_week {
     type: string
     sql: FORMAT_DATE('%Y-%W', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
@@ -103,5 +116,17 @@ view: dw_adobe_visits {
     sql: ${distinct_count_visitor}*100/${count_visitor} ;;
 
   }
+  measure:count_distinct_no_of_customer{
+    type: count_distinct
+    sql: concat( dw_adobe_Visits.COUNTRY, dw_adobe_Visits.INGRAM_RESELLER_ID) ;;
+    #sql: case when CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY') > DATE_SUB(CURRENT_DATE(), INTERVAL 13 MONTH) then concat( ${country},${ingram_reseller_id}) else 0 end ;;
+    html: @{big_number_format} ;;
+  }
 
+  measure: Visitor_sum {
+    type: sum
+    #sql: case when CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY') > DATE_SUB(CURRENT_DATE(), INTERVAL 13 MONTH) then ${visits} else 0 end ;;
+    sql: ${visits} ;;
+    html: @{big_number_format} ;;
+  }
 }

@@ -316,6 +316,15 @@ view: hi_invoiceline_sample {
       ;;
   }
 
+  measure: order_distinct_count {
+    type: count_distinct
+    sql: concat(${TABLE}.COMPANYCD,${TABLE}.ORDERNBR,${TABLE}.ENTRYDT) ;;
+    drill_fields: [entrymethod,termidcd,custname,category1,extendedsales]
+    #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    html: @{big_number_format} ;;
+  }
+
+
   measure: count {
     type: count
     drill_fields: [entrymethod,termidcd,custname,category1,extendedsales]
@@ -333,6 +342,14 @@ view: hi_invoiceline_sample {
     #value_format_name: "0.000,,,\"B\""
     html: @{big_money_format} ;;
   }
+
+  #measure: total_extendedsales_by_web {
+  #  type: sum
+  #  sql: case when ${channel}='WEB' then ${extendedsales}*${multiplybyforusd} else 0 end;;
+  #  drill_fields: [detail*]
+  #  html: @{big_money_format} ;;
+  #}
+
 
   measure: total_extendedsales_full {
     type: sum
