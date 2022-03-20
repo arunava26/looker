@@ -53,6 +53,11 @@ view: dw_adobe_visits {
     sql: FORMAT_DATE('%Y-%W', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
   }
 
+  dimension: year{
+    type: string
+    sql: FORMAT_DATE('%Y', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
+  }
+
 
   dimension: ingram_reseller_id {
     primary_key: yes

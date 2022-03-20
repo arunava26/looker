@@ -26,6 +26,36 @@ view: dw_adobe_addtocartlocation {
     type: string
     sql: ${TABLE}.DATES ;;
   }
+  dimension: dates_yyyy_mm {
+    label:"Year Month"
+    type: string
+    sql: CONCAT(EXTRACT (YEAR FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (MONTH FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
+  }
+
+  dimension: dates_yyyy_ww {
+    label:"Year Week"
+    type: string
+    sql: CONCAT(EXTRACT (YEAR FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (WEEK FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
+  }
+
+  dimension_group: dates_format {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: TIMESTAMP(SAFE_CAST(${dates} AS DATE FORMAT 'MONTH DD, YYYY')) ;;
+  }
+
+  dimension: year{
+    type: string
+    sql: FORMAT_DATE('%Y', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
+  }
 
   dimension: ingram_reseller_id {
     type: string
@@ -54,6 +84,32 @@ view: dw_adobe_addtocartlocation {
   measure: total_revenue {
     type: sum
     sql: ${revenue} ;;
+  }
+
+  measure: incremental_total_revenue {
+    type: sum
+    sql: case when ${add_to_cart_location} in ('Favorite Products_List_AddToCart'
+            ,'Favorite Products_SearchResults_AddToCart'
+            ,'Home_RecentlyViewed_AddToCart'
+            ,'HomePageZone_BuyItAgain_AddToCart'
+            ,'HomePageZone_Promotions_AddToCart'
+            ,'HomePageZone_RecommendedProducts_AddToCart'
+            ,'HomePageZone_TrendingProducts_AddToCart'
+            ,'HomePageZone_YouMayAlsoLike_AddToCart'
+            ,'Product Detail_RecommendedProducts_AddToCart'
+            ,'ProductDetailsPageZone_Accessories_AddToCart'
+            ,'ProductDetailsPageZone_PeopleAlsoBought_AddToCart'
+            ,'ProductDetailsPageZone_RecentlyViewedProducts_AddToCart'
+            ,'ProductDetailsPageZone_SimilarProducts_AddToCart'
+            ,'ProductDetailsPageZone_YouMayAlsoLike_AddToCart'
+            ,'Search Results_RecentlyViewed_AddToCart'
+            ,'SearchPageZone_RecentlyViewedProducts_AddToCart'
+            ,'SearchPageZone_RecommendedProducts_AddToCart'
+            ,'SearchPageZone_SponsoredProductPlacement_AddToCart'
+            ,'SearchPageZone_YouMayAlsoLike_AddToCart'
+            ,'Trending Products_KenticoRule_AddToCart'
+            ,'WarrantyCarousel_AddToCart') or ${add_to_cart_location} like '%KENTICO%' then ${revenue} end ;;
+        html: @{big_number_format} ;;
   }
 
   measure: average_revenue {
