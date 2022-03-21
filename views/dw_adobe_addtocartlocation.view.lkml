@@ -79,7 +79,7 @@ view: dw_adobe_addtocartlocation {
 
   dimension: Sales_Source {
     type: string
-    label: "Page Type"
+    label: "Page"
     sql: case when ${add_to_cart_location} like '%Search%' then 'Search Page'
               when ${add_to_cart_location} like '%Product%' then 'Product Details Page'
               when ${add_to_cart_location} like '%Bids%' then 'Special Bids Page'
@@ -124,6 +124,23 @@ view: dw_adobe_addtocartlocation {
             ,'WarrantyCarousel_AddToCart') or ${add_to_cart_location} like '%KENTICO%' then ${revenue} end ;;
         html: @{big_number_format} ;;
   }
+  measure: incremental_total_revenue_matrix {
+    type: sum
+    sql: case when ${add_to_cart_location} in ('Product Recommendations','RecentlyViewedProducts','RecommendedProducts','BuyItAgain','Accessories','YouMayAlsoLike','TopCategories','TrendingProducts','Promotions','PeopleAlsoBought','SimilarProducts')
+        or ${add_to_cart_location} like '%RECOMMEND%'
+        or ${add_to_cart_location} like '%ACCESSORIES%'
+        or ${add_to_cart_location} like '%BUYITAGAIN%'
+        or ${add_to_cart_location} like '%RecentlyViewed%'
+        or ${add_to_cart_location} like '%WARRANTY%'
+        or ${add_to_cart_location} like '%KENTICO%'
+        or ${add_to_cart_location} like '%SPONSOR%'
+        or ${add_to_cart_location} like '%SHOWCASE%'
+        or ${add_to_cart_location} like '%TRENDING%'
+        or ${add_to_cart_location} like '%PROMO%'
+        or ${add_to_cart_location} like '%SIMILAR%' THEN ${revenue} END ;;
+    html: @{big_number_format} ;;
+  }
+
 
   measure: average_revenue {
     type: average

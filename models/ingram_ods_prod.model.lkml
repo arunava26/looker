@@ -28,8 +28,6 @@ persist_with: ingram_ods_prod_default_datagroup
 
 explore: dw_adobe_addtocartlocation {}
 explore: conversion_rate {}
-
-
 explore: dw_adobe_visits {
   join: customer_hierarchy_dimention {
     view_label: "Customer Hierarchy Dimention"

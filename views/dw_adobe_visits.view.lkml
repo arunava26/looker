@@ -42,6 +42,12 @@ view: dw_adobe_visits {
     sql: CONCAT(EXTRACT (YEAR FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (MONTH FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
   }
 
+  dimension: dates_yyyy_ww {
+    label:"Year Week"
+    type: string
+    sql: CONCAT(EXTRACT (YEAR FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (WEEk FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
+  }
+
   dimension: dates_format {
     type: date
     sql: CAST(dw_adobe_visits.DATES AS DATE FORMAT 'MONTH DD, YYYY')   ;;

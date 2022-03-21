@@ -83,7 +83,7 @@ view: hi_invoiceline_sample {
   dimension: country {
     type: string
     map_layer_name: countries
-    sql: ${TABLE}.Country ;;
+    sql: case WHEN ${TABLE}.Country not in ('Brightpoint India', 'Components', 'IM Brazil Solutions', 'Saudi Arabia') Then ${TABLE}.Country END;;
   }
 
   dimension: currencycd {
@@ -154,7 +154,7 @@ view: hi_invoiceline_sample {
   dimension: fisquartername {
     label: "Fiscal Quarter"
     type: string
-    sql: ${TABLE}.FISQUARTERNAME ;;
+    sql:  ${TABLE}.FISQUARTERNAME  ;;
   }
 
   dimension: fisweekid {
@@ -167,7 +167,7 @@ view: hi_invoiceline_sample {
   dimension: fisyearid {
     label: "Fiscal Year"
     type: number
-    value_format_name: id
+  #  value_format_name: id
     sql: ${TABLE}.FISYEARID ;;
   }
 
@@ -245,7 +245,7 @@ view: hi_invoiceline_sample {
 
   dimension: region {
     type: string
-    sql: ${TABLE}.Region ;;
+    sql: case WHEN ${TABLE}.Region!='META' THEN ${TABLE}.Region END ;;
   }
 
   dimension_group: shipmentdt {
@@ -345,8 +345,8 @@ view: hi_invoiceline_sample {
     sql: ${extendedsales}*${multiplybyforusd} ;;
     #value_format_name: decimal_0
     #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
-    drill_fields: [detail_revenue*]
-    #drill_fields: [detail*]
+    #drill_fields: [detail_revenue*]
+    drill_fields: [detail*]
     #value_format_name: "0.000,,,\"B\""
     html: @{big_money_format} ;;
   }
