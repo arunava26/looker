@@ -167,7 +167,7 @@ view: hi_invoiceline_sample {
   dimension: fisyearid {
     label: "Fiscal Year"
     type: number
-
+    value_format_name: id
     sql: ${TABLE}.FISYEARID ;;
   }
 
@@ -345,7 +345,8 @@ view: hi_invoiceline_sample {
     sql: ${extendedsales}*${multiplybyforusd} ;;
     #value_format_name: decimal_0
     #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
-    drill_fields: [detail*]
+    drill_fields: [detail_revenue*]
+    #drill_fields: [detail*]
     #value_format_name: "0.000,,,\"B\""
     html: @{big_money_format} ;;
   }
@@ -369,7 +370,13 @@ view: hi_invoiceline_sample {
     html: @{big_number_format} ;;
   }
 
-
+  dimension: total_extendedsales_drill {
+    label: "Revenue"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.EXTENDEDSALES*${multiplybyforusd} ;;
+    value_format_name: usd
+  }
 
   measure: total_qtyshipped {
     type: sum
@@ -398,6 +405,10 @@ view: hi_invoiceline_sample {
   set:detail {
     fields: [entrymethod,termidcd,custname,category1,extendedsales]
   }
+  set:detail_revenue {
+    fields: [fisyearid,fisquartername,fismonthofyear,fisweekid,region,country,masterbrcustnbr,custname,total_extendedsales_drill]
+  }
+
   set:detailCustomer {
     fields: [companycd,masterbrcustnbr,channel]
   }
