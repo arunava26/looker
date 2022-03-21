@@ -89,14 +89,20 @@ view: offline_online_chart {
 
   dimension: fiscal_year_mm {
     type: string
-    sql: concat(${fiscal_year},'-',${fiscal_month}) ;;
+    sql: concat(${fiscal_year},'-',${fiscal_mm}) ;;
   }
 
-    dimension: fiscal_month {
-      type: number
-      sql: ${TABLE}.FISCAL_MONTH ;;
-    }
+  dimension: fiscal_mm {
+    type: string
+    #sql: ${TABLE}.FISCAL_MONTH ;;
+    sql: CASE WHEN ${fiscal_month} < 10 THEN concat("0",cast(${fiscal_month} as string))
+              else cast(${fiscal_month} as string) end ;;
+  }
 
+  dimension: fiscal_month {
+    type: number
+    sql: ${TABLE}.FISCAL_MONTH ;;
+  }
     dimension: region {
       type: string
       sql: ${TABLE}.REGION ;;
