@@ -77,6 +77,19 @@ view: dw_adobe_addtocartlocation {
     sql: ${TABLE}.REVENUE ;;
   }
 
+  dimension: Sales_Source {
+    type: string
+    label: "Page Type"
+    sql: case when ${add_to_cart_location} like '%Search%' then 'Search Page'
+              when ${add_to_cart_location} like '%Product%' then 'Product Details Page'
+              when ${add_to_cart_location} like '%Bids%' then 'Special Bids Page'
+              when ${add_to_cart_location} like '%Favorite%' then 'Favorite Products'
+              when ${add_to_cart_location} like '%Home%' then 'Home Page'
+              when ${add_to_cart_location} like '%Compare%' then 'Product Comparison'
+              when ${add_to_cart_location} like '%Kentico%' then 'Kentico Ads'
+              else 'Other' end;;
+  }
+
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
@@ -117,7 +130,12 @@ view: dw_adobe_addtocartlocation {
     sql: ${revenue} ;;
   }
 
-
+  measure: sum_revenue {
+    label: "Total Revenue"
+    type: sum
+    sql: ${revenue} ;;
+    html: @{big_money_format} ;;
+  }
 
   dimension: visitor_id {
     type: string
