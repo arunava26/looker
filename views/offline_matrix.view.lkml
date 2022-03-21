@@ -1,4 +1,4 @@
-view: sql_runner_query {
+view: offline_matrix {
   derived_table: {
     sql: select
       IL.COUNTRY AS COUNTRY,
@@ -91,18 +91,18 @@ view: sql_runner_query {
     sql: ${TABLE}.FISCAL_WEEK ;;
   }
 
-  dimension: total_orders_denominator {
-    type: number
+  measure: total_orders_denominator {
+    type: sum
     sql: ${TABLE}.TOTAL_ORDERS_DENOMINATOR ;;
   }
 
-  dimension: orders_related_to_web_search_numerator {
-    type: number
+  measure: orders_related_to_web_search_numerator {
+    type: sum
     sql: ${TABLE}.ORDERS_RELATED_TO_WEB_SEARCH_NUMERATOR ;;
   }
 
-  dimension: offline_conversion_rate {
-    type: number
+  measure: offline_conversion_rate {
+    type: sum
     sql: ${TABLE}.OFFLINE_CONVERSION_RATE ;;
   }
 
