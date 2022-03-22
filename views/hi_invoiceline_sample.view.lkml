@@ -311,6 +311,7 @@ view: hi_invoiceline_sample {
          WHEN ${entrymethod} = 'ZXML'  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'XML'
          WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBS')  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'API'
          WHEN ${termidcd} = 'G360'  and left(${branchcustomernbr},2) not in ('16','IC')   THEN 'Manual Quote to Order'
+         WHEN ${entrymethod} = 'CMP' and left(${branchcustomernbr},2) not in ('16','IC') THEN ${category1}
          ELSE 'Manual Entry'
      END
       ;;

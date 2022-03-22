@@ -37,9 +37,14 @@ view: dw_adobe_visits {
   }
 
   dimension: dates_yyyy_mm {
-    label:"Year Week"
+    label:"Year Month"
     type: string
-    sql: CONCAT(EXTRACT (YEAR FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (MONTH FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
+    sql: CONCAT(EXTRACT (YEAR FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',case when ${month}<10 then concat("0",cast(${month} as string)) else cast(${month} as string) end ) ;;
+  }
+  dimension: month{
+    type: number
+    hidden: yes
+    sql: EXTRACT (MONTH FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')) ;;
   }
 
   dimension: dates_yyyy_ww {

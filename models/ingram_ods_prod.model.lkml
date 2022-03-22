@@ -25,10 +25,13 @@ persist_with: ingram_ods_prod_default_datagroup
 # Typically, join parameters require that you define the join type, join relationship, and a sql_on clause.
 # Each joined view also needs to define a primary key.
 
+explore: customers_buying_by_channel {}
 explore: offline_online_chart {}
 explore: offline_matrix {}
 explore: dw_adobe_addtocartlocation {}
 explore: conversion_rate {}
+explore: visit_matrix {}
+
 explore: dw_adobe_visits {
   join: customer_hierarchy_dimention {
     view_label: "Customer Hierarchy Dimention"
