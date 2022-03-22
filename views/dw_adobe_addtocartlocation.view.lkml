@@ -29,7 +29,15 @@ view: dw_adobe_addtocartlocation {
   dimension: dates_yyyy_mm {
     label:"Year Month"
     type: string
-    sql: CONCAT(EXTRACT (YEAR FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (MONTH FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
+    sql: CONCAT(EXTRACT (YEAR FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',case when ${month}<10 then concat("0",cast(${month} as string)) else cast(${month} as string) end ) ;;
+    #sql: CONCAT(EXTRACT (YEAR FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',EXTRACT (MONTH FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')))  ;;
+  }
+
+  dimension: month {
+    label:"Year Month"
+    hidden: yes
+    type: number
+    sql: EXTRACT (MONTH FROM SAFE_CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY'))  ;;
   }
 
   dimension: dates_yyyy_ww {
