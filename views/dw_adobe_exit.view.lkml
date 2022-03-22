@@ -17,6 +17,11 @@ view: dw_adobe_exit {
     sql: ${TABLE}.COUNTRY ;;
   }
 
+  dimension: year{
+    type: string
+    sql: FORMAT_DATE('%Y', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
+  }
+
   dimension: dates {
     type: string
     sql: ${TABLE}.DATES ;;
