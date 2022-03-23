@@ -402,6 +402,17 @@ view: hi_invoiceline_sample {
     drill_fields: [detailCustomer*]
   }
 
+  measure: company_count {
+    type: count_distinct
+    sql: concat(${TABLE}.COMPANYCD,${TABLE}.MASTERBRCUSTNBR) ;;
+    html: @{big_number_format} ;;
+  }
+
+  measure: company_count_distinct {
+    type: count_distinct
+    sql: concat(${TABLE}.COMPANYCD,${TABLE}.MASTERBRCUSTNBR)  ;;
+    html: @{big_number_format} ;;
+  }
 
 
   set:detail {

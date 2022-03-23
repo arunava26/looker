@@ -28,6 +28,7 @@ persist_with: ingram_ods_prod_default_datagroup
 
 explore: customer_matrix {}
 
+#explore: customers_buying_by_channel2 {}
 explore: customers_buying_by_channel {}
 explore: offline_online_chart {}
 explore: offline_matrix {}
