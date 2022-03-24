@@ -414,6 +414,12 @@ view: hi_invoiceline_sample {
     html: @{big_number_format} ;;
   }
 
+  measure: distinct_count_vendornbr {
+    type: count_distinct
+    sql: ${vendornbr}  ;;
+    html: @{big_number_format} ;;
+  }
+
 
   set:detail {
     fields: [entrymethod,termidcd,custname,category1,extendedsales]

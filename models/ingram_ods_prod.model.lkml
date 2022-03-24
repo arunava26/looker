@@ -27,6 +27,9 @@ persist_with: ingram_ods_prod_default_datagroup
 
 
 explore: customer_matrix {}
+explore: tab2 {}
+explore: tab2_sku {}
+
 
 #explore: customers_buying_by_channel2 {}
 explore: customers_buying_by_channel {}
