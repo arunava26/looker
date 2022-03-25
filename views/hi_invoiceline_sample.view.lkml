@@ -319,6 +319,7 @@ view: hi_invoiceline_sample {
 
   measure: order_distinct_count {
     type: count_distinct
+    label: "# Orders"
     sql: concat(${TABLE}.COMPANYCD,${TABLE}.ORDERNBR,${TABLE}.ENTRYDT) ;;
     drill_fields: [entrymethod,termidcd,custname,category1,extendedsales]
     #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
@@ -363,7 +364,7 @@ view: hi_invoiceline_sample {
 
   measure: total_extendedsales_full {
     type: sum
-    label: "Revenue"
+    label: "Revenue Full"
     sql: ${extendedsales}*${multiplybyforusd} ;;
     #value_format_name: decimal_0
     #value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
@@ -415,12 +416,14 @@ view: hi_invoiceline_sample {
   }
 
   measure: distinct_count_vendornbr {
+    label: "Total # Vendors Purchased"
     type: count_distinct
     sql: ${vendornbr}  ;;
     html: @{big_number_format} ;;
   }
 
   measure: distinct_count_companySKU {
+    label: "Total # SKUs Purchased"
     type: count_distinct
     sql: concat(${companycd},${sku})  ;;
     html: @{big_number_format} ;;
