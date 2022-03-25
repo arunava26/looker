@@ -420,6 +420,25 @@ view: hi_invoiceline_sample {
     html: @{big_number_format} ;;
   }
 
+  measure: distinct_count_companySKU {
+    type: count_distinct
+    sql: concat(${companycd},${sku})  ;;
+    html: @{big_number_format} ;;
+  }
+
+  measure: distinct_count_category1 {
+    type: count_distinct
+    label: "Total # Categories Purchased "
+    sql: ${category1}  ;;
+    html: @{big_number_format} ;;
+  }
+
+  measure: resellers_denom {
+    type: count_distinct
+    label : " Resellers Denominator"
+    sql: concat(${companycd},${masterbrcustnbr})  ;;
+    html: @{big_number_format} ;;
+  }
 
   set:detail {
     fields: [entrymethod,termidcd,custname,category1,extendedsales]
