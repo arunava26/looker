@@ -335,6 +335,15 @@ view: hi_invoiceline_sample {
 
   }
 
+  measure: customer_distinct_count_concat_deno {
+    type: count_distinct
+    sql:concat(${TABLE}.COMPANYCD,${TABLE}.MASTERBRCUSTNBR)  ;;
+    #drill_fields: [detail*]
+    #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    html: @{big_number_format} ;;
+
+  }
+
   measure: count {
     type: count
     drill_fields: [entrymethod,termidcd,custname,category1,extendedsales]
