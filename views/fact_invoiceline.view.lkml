@@ -256,6 +256,15 @@ view: fact_invoiceline {
     html: @{big_money_format} ;;
   }
 
+  measure: order_distinct_count {
+    type: count_distinct
+    label: "# Orders"
+    sql: concat(${TABLE}.COMPANYCD,${TABLE}.ORDERNBR,${TABLE}.ENTRYDT) ;;
+    drill_fields: [entrymethod,termidcd,dim_customer.custname,category1,extendedsales]
+    #value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0.00"
+    html: @{big_number_format} ;;
+  }
+
   set:detail {
     fields: [entrymethod,termidcd,dim_customer.custname,category1,extendedsales]
   }
