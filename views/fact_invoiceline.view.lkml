@@ -245,19 +245,16 @@ view: fact_invoiceline {
 
   dimension: month{
     type: number
-    hidden: yes
     sql: EXTRACT (MONTH FROM ${entrydt_date}) ;;
   }
 
   dimension: year{
     type: number
-    hidden: yes
     sql: EXTRACT (YEAR FROM ${entrydt_date}) ;;
   }
 
   dimension: quertar{
     type: string
-    hidden: yes
     sql: concat("Q",EXTRACT (QUERTAR FROM ${entrydt_date})) ;;
   }
 
