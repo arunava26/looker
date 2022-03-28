@@ -13,18 +13,18 @@ persist_with: ingram_ods_prod_new_datagroup
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
 #
- explore: fact_orderline {
+ explore: fact_invoiceline {
    join: dim_customer {
      relationship: many_to_one
-     sql_on: ${fact_orderline.customerkey} = ${dim_customer.customerkey} ;;
+     sql_on: ${fact_invoiceline.customerkey} = ${dim_customer.customerkey} ;;
    }
 
    join: dim_product {
      relationship: many_to_one
-     sql_on: ${fact_orderline.productkey} = ${dim_product.productkey} ;;
+     sql_on: ${fact_invoiceline.productkey} = ${dim_product.productkey} ;;
    }
   join: dim_vendor {
     relationship: many_to_one
-    sql_on: ${fact_orderline.vendorkey} = ${dim_vendor.vendorkey} ;;
+    sql_on: ${fact_invoiceline.vendorkey} = ${dim_vendor.vendorkey} ;;
   }
  }

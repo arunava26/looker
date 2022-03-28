@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Fact Orderline"
-view: fact_orderline {
+# The name of this view in Looker is "Fact Invoiceline"
+view: fact_invoiceline {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `imsandboxpoc2.ODS_PROD.FACT_ORDERLINE`
+  sql_table_name: `imsandboxpoc2.ODS_PROD.FACT_INVOICELINE`
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -16,28 +16,23 @@ view: fact_orderline {
     sql: ${TABLE}.BRANCHCUSTOMERNBR ;;
   }
 
-  dimension: branchnbr {
+  dimension: calculatedprice {
     type: number
-    sql: ${TABLE}.BRANCHNBR ;;
+    sql: ${TABLE}.CALCULATEDPRICE ;;
   }
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_branchnbr {
+  measure: total_calculatedprice {
     type: sum
-    sql: ${branchnbr} ;;
+    sql: ${calculatedprice} ;;
   }
 
-  measure: average_branchnbr {
+  measure: average_calculatedprice {
     type: average
-    sql: ${branchnbr} ;;
-  }
-
-  dimension: calculatedprice {
-    type: number
-    sql: ${TABLE}.CALCULATEDPRICE ;;
+    sql: ${calculatedprice} ;;
   }
 
   dimension: category1 {
@@ -72,13 +67,18 @@ view: fact_orderline {
   }
 
   dimension: customerkey {
-    type: number
+    type: string
     sql: ${TABLE}.CUSTOMERKEY ;;
   }
 
   dimension: custponbr {
     type: string
     sql: ${TABLE}.CUSTPONBR ;;
+  }
+
+  dimension: datetimekey {
+    type: string
+    sql: ${TABLE}.DATETIMEKEY ;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
@@ -118,15 +118,20 @@ view: fact_orderline {
     type: time
     timeframes: [
       raw,
+      time,
       date,
       week,
       month,
       quarter,
       year
     ]
-    convert_tz: no
-    datatype: date
+    datatype: datetime
     sql: ${TABLE}.INVOICEDT ;;
+  }
+
+  dimension: invoicelinekey {
+    type: string
+    sql: ${TABLE}.INVOICELINEKEY ;;
   }
 
   dimension: invoicenbr {
@@ -154,18 +159,13 @@ view: fact_orderline {
     sql: ${TABLE}.NOOFLINES ;;
   }
 
-  dimension: orderlinekey {
-    type: number
-    sql: ${TABLE}.ORDERLINEKEY ;;
-  }
-
   dimension: ordernbr {
     type: string
     sql: ${TABLE}.ORDERNBR ;;
   }
 
   dimension: ordershipfrom {
-    type: number
+    type: string
     sql: ${TABLE}.ORDERSHIPFROM ;;
   }
 
@@ -175,7 +175,7 @@ view: fact_orderline {
   }
 
   dimension: productkey {
-    type: number
+    type: string
     sql: ${TABLE}.PRODUCTKEY ;;
   }
 
@@ -204,11 +204,6 @@ view: fact_orderline {
     sql: ${TABLE}.SHIPMENTDT ;;
   }
 
-  dimension: sku {
-    type: string
-    sql: ${TABLE}.SKU ;;
-  }
-
   dimension: termidcd {
     type: string
     sql: ${TABLE}.TERMIDCD ;;
@@ -225,12 +220,43 @@ view: fact_orderline {
   }
 
   dimension: vendorkey {
-    type: number
+    type: string
     sql: ${TABLE}.VENDORKEY ;;
+  }
+
+  dimension: channel {
+
+    type: string
+    sql: CASE WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBA','WEBO','LU6G','WEB2','HERM','WEBL') and left(${branchcustomernbr},2) not in ('16','IC') THEN 'WEB'
+         WHEN ${entrymethod} = 'ZWEB' and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'WEB'
+         WHEN ${termidcd} = 'VENP' and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'Vendor Portals'
+         WHEN ${entrymethod} = 'O' and left(${branchcustomernbr},2) not in ('16','IC')   THEN 'EDI'
+         WHEN ${entrymethod} = 'L' and ${termidcd} in ('BTCH') and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'EDI'
+         WHEN ${entrymethod} = 'ZEDI'  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'EDI'
+         WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBX','LU6X')  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'XML'
+         WHEN ${entrymethod} = 'ZXML'  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'XML'
+         WHEN ${entrymethod} = 'L' and ${termidcd} in ('WEBS')  and left(${branchcustomernbr},2) not in ('16','IC')  THEN 'API'
+         WHEN ${termidcd} = 'G360'  and left(${branchcustomernbr},2) not in ('16','IC')   THEN 'Manual Quote to Order'
+         WHEN ${entrymethod} = 'CMP' and left(${branchcustomernbr},2) not in ('16','IC') THEN ${category1}
+         ELSE 'Manual Entry'
+     END
+      ;;
   }
 
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: total_extendedsales {
+    type: sum
+    label: "Revenue"
+    sql: ${extendedsales}*${multiplybyforusd} ;;
+    drill_fields: [detail*]
+    html: @{big_money_format} ;;
+  }
+
+  set:detail {
+    fields: [entrymethod,termidcd,dim_customer.custname,category1,extendedsales]
   }
 }
