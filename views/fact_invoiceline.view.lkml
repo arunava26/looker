@@ -253,9 +253,9 @@ view: fact_invoiceline {
     sql: EXTRACT (YEAR FROM ${entrydt_date}) ;;
   }
 
-  dimension: quertar{
+  dimension: quarter{
     type: string
-    sql: concat("Q",EXTRACT (QUERTAR FROM ${entrydt_date})) ;;
+    sql: concat("Q",EXTRACT (QUARTER FROM ${entrydt_date})) ;;
   }
 
   measure: company_count_distinct_nu {
