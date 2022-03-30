@@ -6,7 +6,7 @@ view: customer_matrix {
       EXTRACT(MONTH FROM PARSE_DATE('%B %d, %Y', dates)) as MONTH,
       EXTRACT(WEEK FROM PARSE_DATE('%B %d, %Y', dates)) as WEEK,
       CONCAT( COUNTRY, INGRAM_RESELLER_ID) AS customer
-      from `imsandboxpoc2.ODS_PROD.DW_ADOBE_VISITS` as VISIT LEFT JOIN `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as MAPPING
+      from `imsandboxpoc2.ODS_PROD.DW_ADOBE_VISITS_0330` as VISIT LEFT JOIN `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as MAPPING
       ON VISIT.COUNTRY=MAPPING.ERP_Country_Name
        ;;
   }
