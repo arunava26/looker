@@ -15,7 +15,10 @@ view: ref_adobe_erp_mapping {
     type: string
     sql: ${TABLE}.Adobe_CountryName ;;
   }
-
+  dimension: ERP_region {
+    type: string
+    sql: ${TABLE}.ERP_Region ;;
+  }
   dimension: adobe_last2_ingram_reseller_cc {
     type: string
     sql: ${TABLE}.Adobe_Last2_Ingram_Reseller_CC ;;

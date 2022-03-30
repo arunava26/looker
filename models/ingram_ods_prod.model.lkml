@@ -27,6 +27,8 @@ persist_with: ingram_ods_prod_default_datagroup
 
 
 explore: customer_matrix {}
+explore: customer_matrix_IM {}
+explore: offline_online_chart_IM {}
 explore: tab2 {}
 explore: tab2_sku {}
 
@@ -35,9 +37,26 @@ explore: tab2_sku {}
 explore: customers_buying_by_channel {}
 explore: offline_online_chart {}
 explore: offline_matrix {}
+explore: offline_matrix_IM {}
 explore: dw_adobe_addtocartlocation {}
+explore: dw_adobe_add_to_cart_location_IM {
+  join: ref_adobe_erp_mapping {
+    type: left_outer
+    sql_on: ${dw_adobe_add_to_cart_location_IM.country} =  ${ref_adobe_erp_mapping.adobe_country_name};;
+    relationship: one_to_one
+  }
+}
+explore: dw_adobe_conversions {
+  join: ref_adobe_erp_mapping {
+    type: left_outer
+    sql_on: ${dw_adobe_conversions.country} =  ${ref_adobe_erp_mapping.adobe_country_name};;
+    relationship: one_to_one
+  }
+}
+
 explore: conversion_rate {}
 explore: visit_matrix {}
+explore: visit_matrix_IM {}
 
 explore: dw_adobe_visits {
   join: customer_hierarchy_dimention {
@@ -58,7 +77,23 @@ explore: dw_adobe_visits {
   }
 }
 
-
+explore: dw_adobe_visits_IM {
+  join: dw_adobe_visitorid_mapping {
+    type: inner
+    sql_on: ${dw_adobe_visits_IM.dates} = ${dw_adobe_visitorid_mapping.dates} and ${dw_adobe_visits_IM.country}=${dw_adobe_visitorid_mapping.country} and ${dw_adobe_visits_IM.site_name}=${dw_adobe_visitorid_mapping.site_name} and ${dw_adobe_visits_IM.visitor_id}=${dw_adobe_visitorid_mapping.visitor_id} ;;
+    relationship: one_to_one
+  }
+  join: dw_adobe_online_skus_IM {
+    type: inner
+    sql_on: ${dw_adobe_visits_IM.dates} = ${dw_adobe_online_skus_IM.dates} and ${dw_adobe_visits_IM.country}=${dw_adobe_online_skus_IM.country} and ${dw_adobe_visits_IM.site_name}=${dw_adobe_online_skus_IM.site_name} and ${dw_adobe_visits_IM.visitor_id}=${dw_adobe_online_skus_IM.visitor_id} ;;
+    relationship: one_to_one
+  }
+  join: ref_adobe_erp_mapping {
+    type: left_outer
+    sql_on: ${dw_adobe_visits_IM.country} =  ${ref_adobe_erp_mapping.adobe_country_name};;
+    relationship: one_to_one
+  }
+}
 
 explore: ar_open_iq {}
 explore: traffic {}
@@ -66,10 +101,14 @@ explore: traffic {}
 explore: revenueByChannel {}
 explore: exit_pages {}
 
-explore: dw_adobe_exit {
-
+explore: dw_adobe_exit {}
+explore: dw_adobe_exits_IM {
+  join: ref_adobe_erp_mapping {
+    type: left_outer
+    sql_on: ${dw_adobe_exits_IM.country} =  ${ref_adobe_erp_mapping.adobe_country_name};;
+    relationship: one_to_one
+  }
 }
-
 explore: acop_bid_info {}
 
 explore: db2_rslr_eu {}

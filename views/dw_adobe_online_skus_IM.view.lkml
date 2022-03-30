@@ -1,15 +1,20 @@
-# The name of this view in Looker is "Dw Adobe Conversions"
-view: dw_adobe_conversions {
+# The name of this view in Looker is "Dw Adobe Online Skus"
+view: dw_adobe_online_skus_IM {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_CONVERSIONS`
+  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS`
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
   # Here's what a typical dimension looks like in LookML.
   # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "Country" in Explore.
+  # This dimension will be called "Cart Additions" in Explore.
+
+  dimension: cart_additions {
+    type: number
+    sql: ${TABLE}.CART_ADDITIONS ;;
+  }
 
   dimension: country {
     type: string
@@ -22,13 +27,9 @@ view: dw_adobe_conversions {
     sql: ${TABLE}.DATES ;;
   }
 
-  dimension: year{
+  dimension: product_sku {
     type: string
-    sql: FORMAT_DATE('%Y', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
-  }
-  dimension: page_views {
-    type: number
-    sql: ${TABLE}.PAGE_VIEWS ;;
+    sql: ${TABLE}.PRODUCT_SKU ;;
   }
 
   dimension: revenue {
@@ -74,14 +75,4 @@ view: dw_adobe_conversions {
     type: count
     drill_fields: [site_name]
   }
-
-  measure: total_transactions {
-    type: sum
-    sql: ${transactions} ;;
-  }
-  measure: total_visits {
-    type: sum
-    sql: ${visits} ;;
-  }
-
 }

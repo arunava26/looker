@@ -20,7 +20,7 @@ view: visit_matrix {
 
       COALESCE(dw_adobe_visits.VISITS , 0) AS visits
 
-      FROM `ODS_PROD.DW_ADOBE_VISITS`
+      FROM `ODS_PROD.DW_ADOBE_VISITS_0330`
 
       AS dw_adobe_visits
 

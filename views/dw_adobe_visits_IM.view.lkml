@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Dw Adobe Conversions"
-view: dw_adobe_conversions {
+# The name of this view in Looker is "Dw Adobe Visits"
+view: dw_adobe_visits_IM {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_CONVERSIONS`
+  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_VISITS`
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -22,10 +22,27 @@ view: dw_adobe_conversions {
     sql: ${TABLE}.DATES ;;
   }
 
+  dimension: dates_yyyy_mm {
+    label:"Year Month"
+    type: string
+    sql: CONCAT(EXTRACT (YEAR FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',case when ${month}<10 then concat("0",cast(${month} as string)) else cast(${month} as string) end ) ;;
+  }
+
+  dimension: month{
+    type: number
+    hidden: yes
+    sql: EXTRACT (MONTH FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')) ;;
+  }
   dimension: year{
     type: string
     sql: FORMAT_DATE('%Y', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
   }
+
+  dimension: page_type {
+    type: string
+    sql: ${TABLE}.PAGE_TYPE ;;
+  }
+
   dimension: page_views {
     type: number
     sql: ${TABLE}.PAGE_VIEWS ;;
@@ -75,13 +92,18 @@ view: dw_adobe_conversions {
     drill_fields: [site_name]
   }
 
-  measure: total_transactions {
-    type: sum
-    sql: ${transactions} ;;
-  }
-  measure: total_visits {
-    type: sum
-    sql: ${visits} ;;
+  measure:count_distinct_no_of_customer{
+    type: count_distinct
+    sql: concat( ${TABLE}.COUNTRY, ${TABLE}.VISITOR_ID) ;;
+    #sql: case when CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY') > DATE_SUB(CURRENT_DATE(), INTERVAL 13 MONTH) then concat( ${country},${ingram_reseller_id}) else 0 end ;;
+    html: @{big_number_format} ;;
   }
 
+
+  measure: Visitor_sum {
+    type: sum
+    #sql: case when CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY') > DATE_SUB(CURRENT_DATE(), INTERVAL 13 MONTH) then ${visits} else 0 end ;;
+    sql: ${visits} ;;
+    html: @{big_number_format} ;;
+  }
 }
