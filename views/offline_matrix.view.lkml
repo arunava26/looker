@@ -26,7 +26,7 @@ view: offline_matrix {
       ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
       ,Dates
       ,b.ERP_COUNTRY_CODE
-      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS_0330 as a
       left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
       where Ingram_Reseller_ID <> ''
       and PRODUCT_SKU <> ''
@@ -36,7 +36,7 @@ view: offline_matrix {
       ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
       ,Dates
       ,b.ERP_COUNTRY_CODE
-      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS_0330 as a
       left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
       where Ingram_Reseller_ID <> ''
       and PRODUCT_SKU <> ''
@@ -46,7 +46,7 @@ view: offline_matrix {
       ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
       ,Dates
       ,b.ERP_COUNTRY_CODE
-      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS_0330 as a
       left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
       where Ingram_Reseller_ID <> ''
       and PRODUCT_SKU <> ''

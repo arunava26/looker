@@ -27,7 +27,7 @@ view: offline_online_chart {
               ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
               ,Dates
               ,b.ERP_COUNTRY_CODE
-              from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+              from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS_0330 as a
               left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
               where Ingram_Reseller_ID <> ''
               and PRODUCT_SKU <> ''
@@ -37,7 +37,7 @@ view: offline_online_chart {
               ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
               ,Dates
               ,b.ERP_COUNTRY_CODE
-              from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+              from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS_0330 as a
               left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
               where Ingram_Reseller_ID <> ''
               and PRODUCT_SKU <> ''
@@ -47,7 +47,7 @@ view: offline_online_chart {
               ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
               ,Dates
               ,b.ERP_COUNTRY_CODE
-              from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+              from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS_0330 as a
               left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
               where Ingram_Reseller_ID <> ''
               and PRODUCT_SKU <> ''
@@ -58,7 +58,7 @@ view: offline_online_chart {
               EXTRACT(QUARTER FROM PARSE_DATE('%B %d, %Y', dates)) as QUARTER,
               EXTRACT(MONTH FROM PARSE_DATE('%B %d, %Y', dates)) as MONTH,
               EXTRACT(WEEK FROM PARSE_DATE('%B %d, %Y', dates)) as WEEK
-              from `imsandboxpoc2.ODS_PROD.DW_ADOBE_VISITS` as VISIT LEFT JOIN `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as MAPPING
+              from `imsandboxpoc2.ODS_PROD.DW_ADOBE_VISITS_0330` as VISIT LEFT JOIN `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as MAPPING
               ON VISIT.COUNTRY=MAPPING.ERP_Country_Name
               group by 1,2,5,6,7,8
               ) AS ON1

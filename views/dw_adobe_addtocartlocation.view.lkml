@@ -2,8 +2,9 @@
 view: dw_adobe_addtocartlocation {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_ADDTOCARTLOCATION_BKP`
-    ;;
+  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_ADDTOCARTLOCATION_BKP`    ;;
+  #sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_ADD_TO_CART_LOCATION`    ;;
+
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 

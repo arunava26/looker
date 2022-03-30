@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Dw Adobe Online Skus"
-view: dw_adobe_online_skus {
+# The name of this view in Looker is "Dw Adobe Conversions"
+view: dw_adobe_conversions {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS_0330`
+  sql_table_name: `imsandboxpoc2.ODS_PROD.DW_ADOBE_CONVERSIONS`
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -22,19 +22,9 @@ view: dw_adobe_online_skus {
     sql: ${TABLE}.DATES ;;
   }
 
-  dimension: ingram_reseller_id {
-    type: string
-    sql: ${TABLE}.INGRAM_RESELLER_ID ;;
-  }
-
-  dimension: ingram_reseller_id_cc {
-    type: string
-    sql: ${TABLE}.INGRAM_RESELLER_ID_CC ;;
-  }
-
-  dimension: product_sku {
-    type: string
-    sql: ${TABLE}.PRODUCT_SKU ;;
+  dimension: page_views {
+    type: number
+    sql: ${TABLE}.PAGE_VIEWS ;;
   }
 
   dimension: revenue {
@@ -56,6 +46,11 @@ view: dw_adobe_online_skus {
     sql: ${revenue} ;;
   }
 
+  dimension: site_name {
+    type: string
+    sql: ${TABLE}.SITE_NAME ;;
+  }
+
   dimension: transactions {
     type: number
     sql: ${TABLE}.TRANSACTIONS ;;
@@ -73,10 +68,6 @@ view: dw_adobe_online_skus {
 
   measure: count {
     type: count
-    drill_fields: []
-  }
-  measure: count_distinct_visitor_id_sku {
-    type: count_distinct
-    sql: ${TABLE}.VISITOR_ID ;;
+    drill_fields: [site_name]
   }
 }
