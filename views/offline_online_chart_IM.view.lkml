@@ -1,7 +1,7 @@
 view: offline_online_chart_IM {
   derived_table: {
     sql: SELECT OFF.TOTAL_ORDERS_DENOMINATOR,OFF.ORDERS_RELATED_TO_WEB_SEARCH_NUMERATOR,OFF.FISCAL_YEAR,OFF.FISCAL_MONTH,OFF.REGION,OFF.COUNTRY,OFF.FISCAL_WEEK,OFF.FISCAL_QUARTER, on_total_visits, on_total_transactions from
-              (select
+      (select
       IL.COUNTRY AS COUNTRY,
       IL.REGION as REGION,
       substr(cast(IL.FISWEEKID as String),1,4) as FISCAL_YEAR,
@@ -62,16 +62,16 @@ view: offline_online_chart_IM {
       and PRODUCT_SKU <> ''
       ) as twoprevious_days on IL.COMPANYCD = twoprevious_days.ERP_COUNTRY_CODE and rtrim(IL.SKU) = twoprevious_days.SKU and IL.BRANCHCUSTOMERNBR = twoprevious_days.INGRAM_RESELLER_ID and DATE(DATE_ADD(IL.ENTRYDT, INTERVAL -2 DAY)) = CAST(twoprevious_days.DATES AS DATE FORMAT 'MONTH DD, YYYY')
       group by 1,2,3,4,5,6) AS OFF INNER JOIN
-      (SELECT ERP_Region,Country,COALESCE(SUM(dw_adobe_conversions.TRANSACTIONS ), 0) AS on_total_transactions, COALESCE(SUM(dw_adobe_conversions.VISITS ), 0) AS on_total_visits ,
-       EXTRACT(YEAR FROM PARSE_DATE('%B %d, %Y', dates)) as YEAR,
-              EXTRACT(QUARTER FROM PARSE_DATE('%B %d, %Y', dates)) as QUARTER,
-              EXTRACT(MONTH FROM PARSE_DATE('%B %d, %Y', dates)) as MONTH,
-              EXTRACT(WEEK FROM PARSE_DATE('%B %d, %Y', dates)) as WEEK
-FROM `imsandboxpoc2.ODS_PROD.DW_ADOBE_CONVERSIONS` AS dw_adobe_conversions LEFT JOIN `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as MAPPING
-              ON dw_adobe_conversions.COUNTRY=MAPPING.Adobe_CountryName
-              group by 1,2,5,6,7,8) AS ON1
-              ON OFF.FISCAL_MONTH=ON1.MONTH and OFF.FISCAL_YEAR=CAST (ON1.YEAR AS STRING) and OFF.COUNTRY=ON1.COUNTRY and OFF.REGION=ON1.ERP_Region and OFF.FISCAL_QUARTER=ON1.QUARTER
-              and OFF.FISCAL_WEEK=ON1.WEEK
+      (SELECT ERP_Region,ERP_Country_Name,COALESCE(SUM(dw_adobe_conversions.TRANSACTIONS ), 0) AS on_total_transactions, COALESCE(SUM(dw_adobe_conversions.VISITS ), 0) AS on_total_visits ,
+      EXTRACT(YEAR FROM PARSE_DATE('%B %d, %Y', dates)) as YEAR,
+      EXTRACT(QUARTER FROM PARSE_DATE('%B %d, %Y', dates)) as QUARTER,
+      EXTRACT(MONTH FROM PARSE_DATE('%B %d, %Y', dates)) as MONTH,
+      EXTRACT(WEEK FROM PARSE_DATE('%B %d, %Y', dates)) as WEEK
+      FROM `imsandboxpoc2.ODS_PROD.DW_ADOBE_CONVERSIONS` AS dw_adobe_conversions LEFT JOIN `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as MAPPING
+      ON dw_adobe_conversions.COUNTRY=MAPPING.Adobe_CountryName
+      group by 1,2,5,6,7,8) AS ON1
+      ON OFF.FISCAL_MONTH=ON1.MONTH and OFF.FISCAL_YEAR=CAST (ON1.YEAR AS STRING) and OFF.COUNTRY=ON1.ERP_Country_Name and OFF.REGION=ON1.ERP_Region and OFF.FISCAL_QUARTER=ON1.QUARTER
+      and OFF.FISCAL_WEEK=ON1.WEEK
 
                ;;
   }

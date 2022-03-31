@@ -22,10 +22,27 @@ view: dw_adobe_conversions {
     sql: ${TABLE}.DATES ;;
   }
 
+  dimension: dates_yyyy_mm {
+    label:"Year Month"
+    type: string
+    sql: CONCAT(EXTRACT (YEAR FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')),'-',case when ${month}<10 then concat("0",cast(${month} as string)) else cast(${month} as string) end ) ;;
+  }
+
   dimension: year{
     type: string
     sql: FORMAT_DATE('%Y', PARSE_DATE('%B %d, %Y', ${TABLE}.dates)) ;;
   }
+
+  dimension: month{
+    type: number
+    sql: EXTRACT (MONTH FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')) ;;
+  }
+
+  dimension: quarter{
+    type: number
+    sql: EXTRACT (QUARTER FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')) ;;
+  }
+
   dimension: page_views {
     type: number
     sql: ${TABLE}.PAGE_VIEWS ;;
@@ -84,4 +101,10 @@ view: dw_adobe_conversions {
     sql: ${visits} ;;
   }
 
+  measure: Visitor_sum {
+    type: sum
+    #sql: case when CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY') > DATE_SUB(CURRENT_DATE(), INTERVAL 13 MONTH) then ${visits} else 0 end ;;
+    sql: ${visits} ;;
+    html: @{big_number_format} ;;
+  }
 }

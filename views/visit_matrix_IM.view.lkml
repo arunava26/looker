@@ -26,7 +26,7 @@ view: visit_matrix_IM {
         COALESCE(dw_adobe_visits.VISITS,
         0) AS visits
         FROM
-        `ODS_PROD.DW_ADOBE_VISITS` AS dw_adobe_visits
+        `ODS_PROD.DW_ADOBE_CONVERSIONS` AS dw_adobe_visits
         LEFT JOIN
         `ODS_PROD.REF_ADOBE_ERP_MAPPING` AS MAP
         ON
@@ -42,6 +42,11 @@ view: visit_matrix_IM {
   dimension: country {
     type: string
     sql: ${TABLE}.COUNTRY ;;
+  }
+
+  dimension: region {
+    type: string
+    sql: ${TABLE}.REGION ;;
   }
 
   dimension: fiscal_year {

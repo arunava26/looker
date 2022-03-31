@@ -30,8 +30,12 @@ view: dw_adobe_visits_IM {
 
   dimension: month{
     type: number
-    hidden: yes
     sql: EXTRACT (MONTH FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')) ;;
+  }
+
+  dimension: quarter{
+    type: number
+    sql: EXTRACT (QUARTER FROM CAST(${TABLE}.DATES AS DATE FORMAT 'MONTH DD, YYYY')) ;;
   }
   dimension: year{
     type: string
