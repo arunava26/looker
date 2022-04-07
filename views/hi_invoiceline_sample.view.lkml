@@ -2,7 +2,7 @@
 view: hi_invoiceline_sample {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `ODS_PROD.HI_INVOICELINE`
+  sql_table_name: `ODSPROD.HI_INVOICELINE`
     ;;
   #sql_table_name: `ODS_PROD.HI_INVOICELINE_SAMPLE`
   # No primary key is defined for this view. In order to join this view in an Explore,

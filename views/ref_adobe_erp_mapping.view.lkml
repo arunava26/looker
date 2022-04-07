@@ -2,7 +2,7 @@
 view: ref_adobe_erp_mapping {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING`
+  sql_table_name: `ODSPROD.REF_ADOBE_ERP_MAPPING`
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.

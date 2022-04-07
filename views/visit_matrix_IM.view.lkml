@@ -26,9 +26,9 @@ view: visit_matrix_IM {
         COALESCE(dw_adobe_visits.VISITS,
         0) AS visits
         FROM
-        `ODS_PROD.DW_ADOBE_CONVERSIONS` AS dw_adobe_visits
+        `ODSPROD.DW_ADOBE_CONVERSIONS` AS dw_adobe_visits
         LEFT JOIN
-        `ODS_PROD.REF_ADOBE_ERP_MAPPING` AS MAP
+        `ODSPROD.REF_ADOBE_ERP_MAPPING` AS MAP
         ON
         dw_adobe_visits.COUNTRY = MAP.Adobe_CountryName )
       ;;

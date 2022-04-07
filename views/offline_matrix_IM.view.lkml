@@ -20,17 +20,17 @@ view: offline_matrix_IM {
       /
       case when COUNT(DISTINCT concat( il.COMPANYCD ,il.ORDERNBR, IL.ENTRYDT ) )=0 then 1 else COUNT(DISTINCT concat( il.COMPANYCD ,il.ORDERNBR, IL.ENTRYDT ) ) end
       as OFFLINE_CONVERSION_RATE
-      from imsandboxpoc2.ODS_PROD.HI_INVOICELINE AS IL
+      from ODSPROD.HI_INVOICELINE AS IL
       left join (
       select distinct b.ERP_Country_Name, MAPP.INGRAM_RESELLER_ID, PRODUCT_SKU
       ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
       ,a.Dates
       ,b.ERP_COUNTRY_CODE
-      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+      from ODSPROD.DW_ADOBE_ONLINE_SKUS as a
       INNER JOIN (SELECT DATES, COUNTRY, SITE_NAME,VISITOR_ID, max(INGRAM_RESELLER_ID) AS INGRAM_RESELLER_ID
-      FROM ODS_PROD.DW_ADOBE_VISITORID_MAPPING group by 1,2,3,4) AS MAPP ON
+      FROM ODSPROD.DW_ADOBE_VISITORID_MAPPING group by 1,2,3,4) AS MAPP ON
       MAPP.VISITOR_ID=a.VISITOR_ID and MAPP.COUNTRY=a.COUNTRY and MAPP.DATES=a.DATES and MAPP.SITE_NAME=a.SITE_NAME
-      left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
+      left join `ODSPROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
       where Ingram_Reseller_ID <> ''
       and PRODUCT_SKU <> ''
       ) as same_day on IL.COMPANYCD = same_day.ERP_COUNTRY_CODE and rtrim(IL.SKU) = same_day.SKU and IL.BRANCHCUSTOMERNBR = same_day.INGRAM_RESELLER_ID and DATE(IL.ENTRYDT) = CAST(same_day.DATES AS DATE FORMAT 'MONTH DD, YYYY')
@@ -39,11 +39,11 @@ view: offline_matrix_IM {
       ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
       ,a.Dates
       ,b.ERP_COUNTRY_CODE
-      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+      from ODSPROD.DW_ADOBE_ONLINE_SKUS as a
       INNER JOIN (SELECT DATES, COUNTRY, SITE_NAME,VISITOR_ID, max(INGRAM_RESELLER_ID) AS INGRAM_RESELLER_ID
-      FROM ODS_PROD.DW_ADOBE_VISITORID_MAPPING group by 1,2,3,4) AS MAPP ON
+      FROM ODSPROD.DW_ADOBE_VISITORID_MAPPING group by 1,2,3,4) AS MAPP ON
       MAPP.VISITOR_ID=a.VISITOR_ID and MAPP.COUNTRY=a.COUNTRY and MAPP.DATES=a.DATES and MAPP.SITE_NAME=a.SITE_NAME
-      left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
+      left join `ODSPROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
       where Ingram_Reseller_ID <> ''
       and PRODUCT_SKU <> ''
       ) as previous_day on IL.COMPANYCD = previous_day.ERP_COUNTRY_CODE and rtrim(IL.SKU) = previous_day.SKU and IL.BRANCHCUSTOMERNBR = previous_day.INGRAM_RESELLER_ID and DATE(DATE_ADD(IL.ENTRYDT, INTERVAL -1 DAY)) = CAST(previous_day.DATES AS DATE FORMAT 'MONTH DD, YYYY')
@@ -52,11 +52,11 @@ view: offline_matrix_IM {
       ,case when STRPOS(PRODUCT_SKU,'_') = 3 then (split(PRODUCT_SKU, '_'))[safe_ordinal(2)] else PRODUCT_SKU end as SKU
       ,a.Dates
       ,b.ERP_COUNTRY_CODE
-      from imsandboxpoc2.ODS_PROD.DW_ADOBE_ONLINE_SKUS as a
+      from ODSPROD.DW_ADOBE_ONLINE_SKUS as a
       INNER JOIN (SELECT DATES, COUNTRY, SITE_NAME,VISITOR_ID, max(INGRAM_RESELLER_ID) AS INGRAM_RESELLER_ID
-      FROM ODS_PROD.DW_ADOBE_VISITORID_MAPPING group by 1,2,3,4) AS MAPP ON
+      FROM ODSPROD.DW_ADOBE_VISITORID_MAPPING group by 1,2,3,4) AS MAPP ON
       MAPP.VISITOR_ID=a.VISITOR_ID and MAPP.COUNTRY=a.COUNTRY and MAPP.DATES=a.DATES and MAPP.SITE_NAME=a.SITE_NAME
-      left join `imsandboxpoc2.ODS_PROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
+      left join `ODSPROD.REF_ADOBE_ERP_MAPPING` as b on a.COUNTRY = b.Adobe_CountryName
       where Ingram_Reseller_ID <> ''
       and PRODUCT_SKU <> ''
       ) as twoprevious_days on IL.COMPANYCD = twoprevious_days.ERP_COUNTRY_CODE and rtrim(IL.SKU) = twoprevious_days.SKU and IL.BRANCHCUSTOMERNBR = twoprevious_days.INGRAM_RESELLER_ID and DATE(DATE_ADD(IL.ENTRYDT, INTERVAL -2 DAY)) = CAST(twoprevious_days.DATES AS DATE FORMAT 'MONTH DD, YYYY')
